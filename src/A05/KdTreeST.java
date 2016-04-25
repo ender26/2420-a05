@@ -12,34 +12,6 @@ public class KdTreeST<Value> {
     private int size;
     private Node root;
 
-    private class Node {
-        private Point2D p; // the point
-        private Value val; // the symbol table maps the point to this value
-        private RectHV rect; // the axis-aligned rectangle corresponding to th//
-        // node
-        private Node left; // the left/bottom subtree
-        private Node right;
-
-        public Node(Point2D point, Value value, RectHV rectangle) {
-            p = point;
-            val = value;
-            rect = rectangle;
-
-        }
-
-        public List<Node> getChildren() {
-            return new ArrayList<Node>(Arrays.asList(left, right));
-        }
-
-        public Node left() {
-            return left;
-        }
-
-        public Node right() {
-            return right;
-        }
-    }
-
     public KdTreeST() {
         root = null;
         size = 0;
@@ -230,9 +202,8 @@ public class KdTreeST<Value> {
 
     }
 
-
     public Point2D nearest(Point2D p) {
-        if(p == null)
+        if (p == null)
             throw new NullPointerException("Point value cannot be null");
         // recursively search for nearest
         return nearestNode(p, root, p.distanceSquaredTo(root.p)).p;
@@ -252,9 +223,37 @@ public class KdTreeST<Value> {
         if (leftDistance < currentDistance && leftDistance < rightDistance)
             return nearestNode(p, parent.left(), leftDistance);
 
-        if(rightDistance < currentDistance)
+        if (rightDistance < currentDistance)
             return nearestNode(p, parent.right(), rightDistance);
 
         return parent;
+    }
+
+    private class Node {
+        private Point2D p; // the point
+        private Value val; // the symbol table maps the point to this value
+        private RectHV rect; // the axis-aligned rectangle corresponding to th//
+        // node
+        private Node left; // the left/bottom subtree
+        private Node right;
+
+        public Node(Point2D point, Value value, RectHV rectangle) {
+            p = point;
+            val = value;
+            rect = rectangle;
+
+        }
+
+        public List<Node> getChildren() {
+            return new ArrayList<Node>(Arrays.asList(left, right));
+        }
+
+        public Node left() {
+            return left;
+        }
+
+        public Node right() {
+            return right;
+        }
     }
 }

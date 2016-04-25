@@ -1,64 +1,43 @@
 package A05;
 
 
-	import edu.princeton.cs.algs4.In;
-	import edu.princeton.cs.algs4.Point2D;
-	import edu.princeton.cs.algs4.RectHV;
-	import edu.princeton.cs.algs4.StdDraw;
-	import edu.princeton.cs.algs4.Queue;
-	import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.*;
+import edu.princeton.cs.algs4.Point2D;
+import edu.princeton.cs.algs4.RectHV;
 
-	public class Visualizer {
-	    // Enhanced Point with more information
-	    private static class PointE { 
-	        private Point2D p;
-	        private boolean vert;
-	        private RectHV lb; // bounding boxes on each side
-	        private RectHV rt;
-	        private PointE(Point2D p, boolean vert, RectHV lb, RectHV rt) {
-	            this.p = p;
-	            this.vert = vert;
-	            this.lb = lb;
-	            this.rt = rt;
-	        }
-	    }
-	    // draws a segment, point, and displays coordinate
-	    private static void drawSegment(PointE pointE, Point2D p, RectHV rect) {
-	        if (pointE.vert) {
-	            StdDraw.setPenRadius(.005);
-	            StdDraw.setPenColor(StdDraw.RED);
-	            StdDraw.line(p.x(), rect.ymin(), p.x(), rect.ymax()); // vertical line
-	            StdDraw.setPenColor(StdDraw.BLACK);
-	            StdDraw.setPenRadius(.015);
-	            StdDraw.point(p.x(), p.y());
-	            StdDraw.textLeft(p.x()+0.01, p.y()+0.025, "(" + p.x() + ", " + p.y() + ")");
-	        }
-	        else {
-	            StdDraw.setPenRadius(.005);
-	            StdDraw.setPenColor(StdDraw.BLUE);
-	            StdDraw.line(rect.xmin(), p.y(), rect.xmax(), p.y()); // horizontal line
-	            StdDraw.setPenColor(StdDraw.BLACK);
-	            StdDraw.setPenRadius(.015);
-	            StdDraw.point(p.x(), p.y());
-	            StdDraw.textLeft(p.x()+0.01, p.y()+0.025, "(" + p.x() + ", " + p.y() + ")");
-	        }
-	    }
-	    
-	    
-	        
-	
+public class Visualizer {
+    // draws a segment, point, and displays coordinate
+    private static void drawSegment(PointE pointE, Point2D p, RectHV rect) {
+        if (pointE.vert) {
+            StdDraw.setPenRadius(.005);
+            StdDraw.setPenColor(StdDraw.RED);
+            StdDraw.line(p.x(), rect.ymin(), p.x(), rect.ymax()); // vertical line
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.setPenRadius(.015);
+            StdDraw.point(p.x(), p.y());
+            StdDraw.textLeft(p.x() + 0.01, p.y() + 0.025, "(" + p.x() + ", " + p.y() + ")");
+        } else {
+            StdDraw.setPenRadius(.005);
+            StdDraw.setPenColor(StdDraw.BLUE);
+            StdDraw.line(rect.xmin(), p.y(), rect.xmax(), p.y()); // horizontal line
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.setPenRadius(.015);
+            StdDraw.point(p.x(), p.y());
+            StdDraw.textLeft(p.x() + 0.01, p.y() + 0.025, "(" + p.x() + ", " + p.y() + ")");
+        }
+    }
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		String filename = "src/A05/input1M.txt";
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        String filename = "src/A05/input1M.txt";
         In in = new In(filename);
         StdDraw.show(0);
         // resize font to be smaller
-        StdDraw.setFont(StdDraw.getFont().deriveFont(10.0f));  
-        
+        StdDraw.setFont(StdDraw.getFont().deriveFont(10.0f));
+
         KdTreeST<Integer> kdtree = new KdTreeST<Integer>();
         int N = 0; // number of points
-        
+
         // obtain level order traveral from KdTreeST and store in points
         for (int i = 0; !in.isEmpty(); i++) {
             double x = in.readDouble();
@@ -67,31 +46,31 @@ package A05;
             kdtree.put(p, i);
             N++;
         }
-        
+
         Point2D[] points = new Point2D[N];
         int count = 0;
-        for (Point2D p: kdtree.points()) {
+        for (Point2D p : kdtree.points()) {
             points[count] = p;
             count++;
         }
-        
+
         Queue<PointE> queue = new Queue<PointE>(); // queue of candidates for parent
-        
+
         // dimensions of unit square, global min/max dimensions
         double minx = 0;
         double maxx = 1;
         double miny = 0;
         double maxy = 1;
-        
+
         // Sets window to slightly larger than unit square, for visual clarity
         StdDraw.setXscale(-0.02, 1.02);
         StdDraw.setYscale(-0.02, 1.02);
-        
+
         // handles root element, special case
-        Point2D p = points[0]; // root 
-        RectHV lb = new RectHV(minx, miny, p.x(), maxy); 
-        RectHV rt = new RectHV(p.x(), miny, maxx, maxy); 
-        
+        Point2D p = points[0]; // root
+        RectHV lb = new RectHV(minx, miny, p.x(), maxy);
+        RectHV rt = new RectHV(p.x(), miny, maxx, maxy);
+
         queue.enqueue(new PointE(p, true, lb, rt));
         StdDraw.setPenRadius(.005);
         StdDraw.setPenColor(StdDraw.RED);
@@ -99,11 +78,11 @@ package A05;
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.setPenRadius(.015);
         StdDraw.point(p.x(), p.y());
-        StdDraw.textLeft(p.x()+0.01, p.y()+0.025, "(" + p.x() + ", " + p.y() + ")");
-        
+        StdDraw.textLeft(p.x() + 0.01, p.y() + 0.025, "(" + p.x() + ", " + p.y() + ")");
+
         boolean left = false;
         int current = 1; // current index
-        
+
         // processes all elements in points
         while (current < N) {
             Point2D point = points[current]; // point to examine
@@ -116,23 +95,22 @@ package A05;
                 if (pointE.lb.xmax() != point.x()) {
                     left = true;
                     leftEntered = true;
-                    
+
                     RectHV newlb, newrt;
                     // if pointE divides things vertically
                     if (pointE.vert) {
                         //xmin, ymin
                         newlb = new RectHV(pointE.lb.xmin(), pointE.lb.ymin(), pointE.lb.xmax(), point.y());
                         newrt = new RectHV(pointE.lb.xmin(), point.y(), pointE.lb.xmax(), pointE.lb.ymax());
-                    }
-                    else { // if horizontal division
+                    } else { // if horizontal division
                         newlb = new RectHV(pointE.lb.xmin(), pointE.lb.ymin(), point.x(), pointE.lb.ymax());
                         newrt = new RectHV(point.x(), pointE.lb.ymin(), pointE.lb.xmax(), pointE.lb.ymax());
                     }
-                    
+
                     PointE newPointE = new PointE(point, !pointE.vert, newlb, newrt);
                     queue.enqueue(newPointE);
                     drawSegment(newPointE, point, pointE.lb);
-                    
+
                     current++;
                 }
             }
@@ -144,27 +122,41 @@ package A05;
                     if (pointE.vert) {
                         newlb = new RectHV(pointE.rt.xmin(), pointE.rt.ymin(), pointE.rt.xmax(), point.y());
                         newrt = new RectHV(pointE.rt.xmin(), point.y(), pointE.rt.xmax(), pointE.rt.ymax());
-                    }
-                    else {
+                    } else {
                         newlb = new RectHV(pointE.rt.xmin(), pointE.rt.ymin(), point.x(), pointE.rt.ymax());
                         newrt = new RectHV(point.x(), pointE.rt.ymin(), pointE.rt.xmax(), pointE.rt.ymax());
                     }
-                    
+
                     PointE newPointE = new PointE(point, !pointE.vert, newlb, newrt);
-                    //StdOut.println("pointE " + point + !pointE.vert); 
+                    //StdOut.println("pointE " + point + !pointE.vert);
                     queue.enqueue(newPointE);
                     drawSegment(newPointE, point, pointE.rt);
-                    
+
                     current++;
                 }
                 // remove and move to next level
                 queue.dequeue();
                 left = false;
             }
-            
+
         }
         StdDraw.show();
     }
-	}
+
+    // Enhanced Point with more information
+    private static class PointE {
+        private Point2D p;
+        private boolean vert;
+        private RectHV lb; // bounding boxes on each side
+        private RectHV rt;
+
+        private PointE(Point2D p, boolean vert, RectHV lb, RectHV rt) {
+            this.p = p;
+            this.vert = vert;
+            this.lb = lb;
+            this.rt = rt;
+        }
+    }
+}
 
 

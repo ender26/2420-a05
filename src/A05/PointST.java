@@ -1,6 +1,5 @@
 package A05;
 
-import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.RectHV;
@@ -8,81 +7,81 @@ import edu.princeton.cs.algs4.RedBlackBST;
 
 public class PointST<Value> {
 
-	private RedBlackBST<Point2D, Value> tree;
+    private RedBlackBST<Point2D, Value> tree;
 
-	public PointST() {
-		tree = new RedBlackBST<Point2D, Value>();
-		// construct an empty symbol table of points
-	}
+    public PointST() {
+        tree = new RedBlackBST<Point2D, Value>();
+        // construct an empty symbol table of points
+    }
 
-	public boolean isEmpty() {
-		return tree.isEmpty();
-		// is the symbol table empty?
-	}
+    public static void main(String[] args) {
 
-	public int size() {
-		return tree.size();
-		// number of points
-	}
+    }
 
-	public void put(Point2D p, Value val) {
-		if (p == null || val == null)
-			throw new java.lang.NullPointerException();
+    public boolean isEmpty() {
+        return tree.isEmpty();
+        // is the symbol table empty?
+    }
 
-		tree.put(p, val);
-	}
+    public int size() {
+        return tree.size();
+        // number of points
+    }
 
-	public Value get(Point2D p) {
-		if (p == null)
-			throw new java.lang.NullPointerException();
-		return tree.get(p);
-		// value associated with point p
-	}
+    public void put(Point2D p, Value val) {
+        if (p == null || val == null)
+            throw new java.lang.NullPointerException();
 
-	public boolean contains(Point2D p) {
-		if (p == null)
-			throw new java.lang.NullPointerException();
-		return tree.contains(p);
-		// does the symbol table contain point p?
-	}
+        tree.put(p, val);
+    }
 
-	public Iterable<Point2D> points() {
-		return tree.keys();
-		// all points in the symbol table
-	}
+    public Value get(Point2D p) {
+        if (p == null)
+            throw new java.lang.NullPointerException();
+        return tree.get(p);
+        // value associated with point p
+    }
 
-	public Iterable<Point2D> range(RectHV rect) {
-		if (rect == null)
-			throw new java.lang.NullPointerException();
-		Queue<Point2D> queue = new Queue<>();
-		for (Point2D el : tree.keys())
-			if (rect.contains(el))
-				queue.enqueue(el);
-		return queue;
-		// all points that are inside the rectangle
-	}
+    public boolean contains(Point2D p) {
+        if (p == null)
+            throw new java.lang.NullPointerException();
+        return tree.contains(p);
+        // does the symbol table contain point p?
+    }
 
-	public Point2D nearest(Point2D p) {
-		if (p == null)
-			throw new java.lang.NullPointerException();
-		Point2D goal = null;
-		double distancegoal = 0;
-		for (Point2D point : tree.keys()) {
-			if (goal == null) {
-				goal = point;
-				distancegoal = point.distanceSquaredTo(p);
-			} else if (point.distanceSquaredTo(p) < distancegoal) {
-				goal = point;
-				distancegoal = point.distanceSquaredTo(p);
-			}
-		}
-		return goal;
+    public Iterable<Point2D> points() {
+        return tree.keys();
+        // all points in the symbol table
+    }
 
-		// a nearest neighbor to point p; null if the symbol table is empty
-	}
+    public Iterable<Point2D> range(RectHV rect) {
+        if (rect == null)
+            throw new java.lang.NullPointerException();
+        Queue<Point2D> queue = new Queue<>();
+        for (Point2D el : tree.keys())
+            if (rect.contains(el))
+                queue.enqueue(el);
+        return queue;
+        // all points that are inside the rectangle
+    }
 
-	public static void main(String[] args) {
+    public Point2D nearest(Point2D p) {
+        if (p == null)
+            throw new java.lang.NullPointerException();
+        Point2D goal = null;
+        double distancegoal = 0;
+        for (Point2D point : tree.keys()) {
+            if (goal == null) {
+                goal = point;
+                distancegoal = point.distanceSquaredTo(p);
+            } else if (point.distanceSquaredTo(p) < distancegoal) {
+                goal = point;
+                distancegoal = point.distanceSquaredTo(p);
+            }
+        }
+        return goal;
 
-	}
+        // a nearest neighbor to point p; null if the symbol table is empty
+    }
 
 }

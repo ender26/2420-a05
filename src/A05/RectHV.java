@@ -4,14 +4,12 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.StdDraw;
 
 /******************************************************************************
- *  Compilation:  javac RectHV.java
- *  Execution:    none
- *  Dependencies: Point2D.java
- *
- *  Immutable data type for 2D axis-aligned rectangle.
- *
+ * Compilation:  javac RectHV.java
+ * Execution:    none
+ * Dependencies: Point2D.java
+ * <p>
+ * Immutable data type for 2D axis-aligned rectangle.
  ******************************************************************************/
-
 
 
 /**
@@ -118,22 +116,22 @@ public final class RectHV {
      *
      * @param  that the other rectangle
      * @return <tt>true</tt> if this rectangle intersect the argument
-               rectagnle at one or more points, including on the boundary
+    rectagnle at one or more points, including on the boundary
      */
     public boolean intersects(RectHV that) {
         return this.xmax >= that.xmin && this.ymax >= that.ymin
-            && that.xmax >= this.xmin && that.ymax >= this.ymin;
+                && that.xmax >= this.xmin && that.ymax >= this.ymin;
     }
 
     /**
      * Returns true if this rectangle contain the point.
      * @param  p the point
      * @return <tt>true</tt> if this rectangle contain the point <tt>p</tt>,
-               possibly at the boundary; <tt>false</tt> otherwise
+    possibly at the boundary; <tt>false</tt> otherwise
      */
     public boolean contains(Point2D p) {
         return (p.x() >= xmin) && (p.x() <= xmax)
-            && (p.y() >= ymin) && (p.y() <= ymax);
+                && (p.y() >= ymin) && (p.y() <= ymax);
     }
 
     /**
@@ -141,7 +139,7 @@ public final class RectHV {
      *
      * @param  p the point
      * @return the Euclidean distance between the point <tt>p</tt> and the closest point
-               on this rectangle; 0 if the point is contained in this rectangle
+    on this rectangle; 0 if the point is contained in this rectangle
      */
     public double distanceTo(Point2D p) {
         return Math.sqrt(this.distanceSquaredTo(p));
@@ -157,11 +155,11 @@ public final class RectHV {
      */
     public double distanceSquaredTo(Point2D p) {
         double dx = 0.0, dy = 0.0;
-        if      (p.x() < xmin) dx = p.x() - xmin;
+        if (p.x() < xmin) dx = p.x() - xmin;
         else if (p.x() > xmax) dx = p.x() - xmax;
-        if      (p.y() < ymin) dy = p.y() - ymin;
+        if (p.y() < ymin) dy = p.y() - ymin;
         else if (p.y() > ymax) dy = p.y() - ymax;
-        return dx*dx + dy*dy;
+        return dx * dx + dy * dy;
     }
 
     /**
@@ -194,7 +192,7 @@ public final class RectHV {
         int hash2 = ((Double) ymin).hashCode();
         int hash3 = ((Double) xmax).hashCode();
         int hash4 = ((Double) ymax).hashCode();
-        return 31*(31*(31*hash1 + hash2) + hash3) + hash4;
+        return 31 * (31 * (31 * hash1 + hash2) + hash3) + hash4;
     }
 
     /**
